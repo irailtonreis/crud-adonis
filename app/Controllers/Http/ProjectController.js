@@ -49,6 +49,12 @@ class ProjectController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
+    const project = await Project.findOrFail(params.id)
+
+    await project.load('user')
+    await project.load('tasks')
+
+    return project
   }
 
   /**
@@ -59,7 +65,16 @@ class ProjectController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
+  async update ({ params, request }) {
+    const project = await Project.findOrFail(params.id)
+
+    const data = request.only(['title', 'description'])
+
+    project.merge(data)
+
+    await project.save()
+
+    return project
   }
 
   /**
@@ -70,7 +85,10 @@ class ProjectController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
+  async destroy ({ params }) {
+    const project = await Project.findOrFail(params.id)
+
+    await project.delete()
   }
 }
 
