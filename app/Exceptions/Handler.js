@@ -1,7 +1,7 @@
 'use strict'
 
-const Env = use('Env')
-const Youch = use('youch')
+// const Env = use('Env')
+// const Youch = use('youch')
 const BaseExceptionHandler = use('BaseExceptionHandler')
 /**
  * This class handles all exceptions thrown during
