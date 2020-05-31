@@ -3,8 +3,8 @@
 const Sentry = require('@sentry/node')
 const Config = use('Config')
 
-// const Env = use('Env')
-// const Youch = use('youch')
+const Env = use('Env')
+const Youch = use('youch')
 const BaseExceptionHandler = use('BaseExceptionHandler')
 /**
  * This class handles all exceptions thrown during
@@ -29,12 +29,12 @@ class ExceptionHandler extends BaseExceptionHandler {
       response.status(error.status).send(error.messages)
     }
 
-    // if (Env.get('NODE_ENV') === 'development') {
-    //   const youch = new Youch(error, request.request)
-    //   const errorJSON = await youch.toJSON()
+    if (Env.get('NODE_ENV') === 'development') {
+      const youch = new Youch(error, request.request)
+      const errorJSON = await youch.toJSON()
 
-    //   return response.status(error.status).send(errorJSON)
-    // }
+      return response.status(error.status).send(errorJSON)
+    }
 
     return response.status(error.status)
   }
